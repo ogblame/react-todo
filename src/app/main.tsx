@@ -21,7 +21,7 @@ export default function Root() {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<App toggleTheme={toggleTheme} />
+			<App mode={theme.palette.mode} toggleTheme={toggleTheme} />
 		</ThemeProvider>
 	)
 }
