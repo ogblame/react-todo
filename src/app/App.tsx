@@ -35,22 +35,27 @@ function App({ mode, toggleTheme }: AppProps) {
 	}
 
 	const handleLogin = async () => {
-		setLoading(true)
-		const loginResponse = await fetch('https://todos-be.vercel.app/auth/login', {
-			method: 'POST',
-			body: JSON.stringify({ username: email, password }),
-			mode: 'cors',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-		const loginData = (await loginResponse.json()) as { access_token: string; username: string }
-		const accessToken = loginData.access_token
-		console.log(jwtDecode(accessToken))
+		try {
+			setLoading(true)
+			const loginResponse = await fetch('https://todos-be.vercel.app/auth/login', {
+				method: 'POST',
+				body: JSON.stringify({ username: email, password }),
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+			const loginData = (await loginResponse.json()) as { access_token: string; username: string }
+			const accessToken = loginData.access_token
+			console.log(jwtDecode(accessToken))
 
-		localStorage.setItem('accessToken', accessToken)
-		setLoading(false)
-		setUser(loginData)
+			localStorage.setItem('accessToken', accessToken)
+			setLoading(false)
+			setUser(loginData)
+		} catch (err) {
+			alert(`Произошла ошибка: ${err}`)
+			setLoading(false)
+		}
 	}
 
 	const handleRegister = async () => {
