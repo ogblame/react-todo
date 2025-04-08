@@ -7,7 +7,16 @@ import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Avatar, Stack, Tooltip } from '@mui/material'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
-const ButtonAppBar = ({ toggleTheme }) => {
+import { WbSunny } from '@mui/icons-material'
+
+interface ButtonAppBarProps {
+	mode: string
+	toggleTheme: () => void
+	access_token?: string
+	username?: string
+}
+
+const ButtonAppBar = ({ mode, toggleTheme, username }: ButtonAppBarProps) => {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
@@ -16,20 +25,23 @@ const ButtonAppBar = ({ toggleTheme }) => {
 						<MenuIcon />
 					</IconButton>
 					<Stack direction={'row'} spacing={2} style={{ flexGrow: 1 }}>
-						<Typography variant="h6" component="div">
-							Todos
-						</Typography>
+						{username && (
+							<Typography variant="h6" component="div">
+								Todos
+							</Typography>
+						)}
 						<Typography variant="h6" component="div">
 							About
 						</Typography>
 					</Stack>
-					<IconButton>
-						<DarkModeIcon onClick={toggleTheme} />
-					</IconButton>
-					<Button color="inherit">Login</Button>
-					<Tooltip title="User">
-						<Avatar />
-					</Tooltip>
+					<IconButton onClick={toggleTheme}>{mode === 'dark' ? <WbSunny /> : <DarkModeIcon />}</IconButton>
+					{username ? (
+						<Tooltip title={username}>
+							<Avatar alt={username}>{username[0]}</Avatar>
+						</Tooltip>
+					) : (
+						<Button color="inherit">Login</Button>
+					)}
 				</Toolbar>
 			</AppBar>
 		</Box>
